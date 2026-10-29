@@ -16,6 +16,7 @@ import { Captions } from "./Captions";
 import { BrollLayer } from "./BrollLayer";
 import { CountdownCTA } from "./CountdownCTA";
 import { TitleBanner } from "./TitleBanner";
+import { ScoreCard } from "./ScoreCard";
 import { KeywordCallout } from "./KeywordCallout";
 import { StatCallout } from "./StatCallout";
 import { Badge } from "./Badge";
@@ -80,12 +81,27 @@ const ZoomPunchVideo: React.FC<{
   /** Source seconds at this clip's first frame (needed to sample the reframe track). */
   clipStartSeconds?: number;
   reframe?: Reframe;
-}> = ({ src, startFrom, endAt, durationInFrames, zoomPunch, staticZoom = 1, zoomOrigin = "center", clipStartSeconds = 0, reframe }) => {
+  /** Soften the hard cut at this clip's start / end (see EditPlan.cutTransition). */
+  softIn?: boolean;
+  softOut?: boolean;
+  /** 0-1 volume of the clip's own audio (Clip.volume). */
+  volume?: number;
+}> = ({ src, startFrom, endAt, durationInFrames, zoomPunch, staticZoom = 1, zoomOrigin = "center", clipStartSeconds = 0, reframe, softIn, softOut, volume = 1 }) => {
   const frame = useCurrentFrame();
   const { fps, width, height } = useVideoConfig();
+  // blurZoom cut: ~0.2 s each side of the cut, no overlap between clips (audio and captions stay in sync)
+  const edge = Math.max(2, Math.min(Math.round(0.2 * fps), Math.floor(durationInFrames / 3)));
+  const inK = softIn ? interpolate(frame, [0, edge], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }) : 0;
+  const outK = softOut
+    ? interpolate(frame, [durationInFrames - edge, durationInFrames - 1], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })
+    : 0;
+  const cutBlur = 14 * Math.max(inK, outK);
+  const cutScale = 1 + 0.07 * inK + 0.05 * outK;
   const scale =
     staticZoom *
+    cutScale *
     (zoomPunch ? interpolate(frame, [0, durationInFrames], [1.06, 1], { extrapolateRight: "clamp" }) : 1);
+  const cutFilter = cutBlur > 0.05 ? `blur(${cutBlur.toFixed(2)}px)` : undefined;
 
   if (reframe && reframe.points.length > 0) {
     // Virtual camera: keep the tracked focus point at (targetX, targetY) of the frame, never showing outside the source.
@@ -113,6 +129,8 @@ const ZoomPunchVideo: React.FC<{
           src={staticFile(src)}
           startFrom={startFrom}
           endAt={endAt}
+          volume={volume}
+          muted={volume === 0}
           style={{ position: "absolute", left, top, width: dispW, height: dispH }}
         />
       </AbsoluteFill>
@@ -123,7 +141,9 @@ const ZoomPunchVideo: React.FC<{
       src={staticFile(src)}
       startFrom={startFrom}
       endAt={endAt}
-      style={{ width: "100%", height: "100%", objectFit: "cover", transform: `scale(${scale})`, transformOrigin: zoomOrigin === "top" ? "50% 20%" : zoomOrigin === "bottom" ? "50% 100%" : "50% 50%" }}
+      volume={volume}
+      muted={volume === 0}
+      style={{ width: "100%", height: "100%", objectFit: "cover", transform: `scale(${scale})`, filter: cutFilter, transformOrigin: zoomOrigin === "top" ? "50% 20%" : zoomOrigin === "bottom" ? "50% 100%" : "50% 50%" }}
     />
   );
 };
@@ -254,8 +274,9 @@ export const Edit: React.FC<{ editPlan: EditPlan; styleConfig: StyleConfig }> = 
           })}
         </TransitionSeries>
       ) : (
-        // "none": hard cuts, no overlap between clips.
+        // "none": cuts with no overlap between clips, softened with blurZoom unless the plan asks for raw cuts.
         editPlan.clips.map((clip, i) => {
+          const cutInto = (k: number) => (editPlan.clips[k]?.cut ?? editPlan.cutTransition ?? "blurZoom") === "blurZoom";
           const from = clipDurations.slice(0, i).reduce((a, b) => a + b, 0);
           const startFrom = Math.round(clip.startFromSeconds * fps);
           const endAt = Math.round(clip.endAtSeconds * fps);
@@ -271,6 +292,9 @@ export const Edit: React.FC<{ editPlan: EditPlan; styleConfig: StyleConfig }> = 
                 zoomOrigin={clip.zoomOrigin}
                 clipStartSeconds={clip.startFromSeconds}
                 reframe={editPlan.reframe}
+                softIn={i > 0 && cutInto(i)}
+                softOut={i < editPlan.clips.length - 1 && cutInto(i + 1)}
+                volume={clip.volume ?? 1}
               />
             </Sequence>
           );
@@ -294,7 +318,7 @@ export const Edit: React.FC<{ editPlan: EditPlan; styleConfig: StyleConfig }> = 
       <BrollLayer
         inserts={editPlan.broll}
         fps={fps}
-        fadeMs={styleConfig.brollFadeMs}
+        fadeMs={Math.max(250, editPlan.brollFadeMs ?? styleConfig.brollFadeMs)}
         zoomPunchIn={styleConfig.brollZoomPunchIn}
       />
       </GradeLayer>
@@ -318,10 +342,10 @@ export const Edit: React.FC<{ editPlan: EditPlan; styleConfig: StyleConfig }> = 
             from={Math.round((editPlan.title.startMs / 1000) * fps)}
             durationInFrames={Math.round((editPlan.title.durationMs / 1000) * fps)}
           >
-            <TitleBanner text={editPlan.title.text} position={editPlan.title.position} bg={editPlan.title.bg} color={editPlan.title.color} />
+            <TitleBanner text={editPlan.title.text} position={editPlan.title.position} bg={editPlan.title.bg} color={editPlan.title.color} topPx={editPlan.title.topPx} />
           </Sequence>
         ) : (
-          <TitleBanner text={editPlan.title.text} position={editPlan.title.position} bg={editPlan.title.bg} color={editPlan.title.color} />
+          <TitleBanner text={editPlan.title.text} position={editPlan.title.position} bg={editPlan.title.bg} color={editPlan.title.color} topPx={editPlan.title.topPx} />
         )
       ) : null}
 
@@ -470,6 +494,12 @@ export const Edit: React.FC<{ editPlan: EditPlan; styleConfig: StyleConfig }> = 
         />
       ) : null}
 
+      {(editPlan.scoreCards ?? []).map((s, i) => (
+        <Sequence key={`score-${i}`} from={Math.round((s.atMs / 1000) * fps)} durationInFrames={Math.max(1, Math.round((s.durationMs / 1000) * fps))}>
+          <ScoreCard label={s.label} score={s.score} tone={s.tone} durationMs={s.durationMs} y={s.y} />
+        </Sequence>
+      ))}
+
       {(editPlan.ctaButtons ?? []).map((b, i) => (
         <CtaButton key={i} text={b.text} atMs={b.atMs} durationMs={b.durationMs} y={b.y} color={b.color} textColor={b.textColor} chevrons={b.chevrons} chevronColor={b.chevronColor} />
       ))}
@@ -477,9 +507,9 @@ export const Edit: React.FC<{ editPlan: EditPlan; styleConfig: StyleConfig }> = 
       {/* Captions render last so overlays (cards, stickers, question box) never cover them. */}
       <Captions
         words={editPlan.captions}
-        variant={styleConfig.captionVariant}
-        color={styleConfig.captionColor}
-        highlightColor={styleConfig.captionHighlightColor}
+        variant={editPlan.captionVariant ?? styleConfig.captionVariant}
+        color={editPlan.captionColor ?? styleConfig.captionColor}
+        highlightColor={editPlan.captionHighlightColor ?? styleConfig.captionHighlightColor}
         fontFamily={styleConfig.captionFontFamily}
         bottomPx={editPlan.captionBottomPx ?? styleConfig.captionPositionFromBottom}
       />

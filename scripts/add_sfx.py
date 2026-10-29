@@ -6,7 +6,8 @@ guarantee/CTA...), the way a human editor "scores" the graphics. Writes plan["sf
 
 Follows the editing rules in references/reglas-de-edicion-antonio.md (clase "Volumen de la musica y
 sound effect"):
-  * 70/30: the voice sits around 0 and the SFX between -20 and -30 dB under it (never closer than -12).
+  * 70/30: the voice sits around 0 and the SFX under it, never closer than -12 dB (Antonio recommends -20/-30;
+    the user asked twice for more audible effects, so the default is -14).
     Each hit is leveled from MEASURED peaks (voice clip + sfx file), not from a fixed volume.
   * Never the same sound twice in a short span: a repeat is swapped for another sound of the same
     family. Deliberate sequences (price/proof stacks counting up) may repeat.
@@ -14,12 +15,13 @@ sound effect"):
   * Highlighted caption words (emphasis: true) get a pop/ding, alternating.
 
 Usage:
-  python3 add_sfx.py --plan job.json [--out job.json] [--intensity low|medium|high] [--db-under 25]
+  python3 add_sfx.py --plan job.json [--out job.json] [--intensity low|medium|high] [--db-under 14]
 Requires the library from make_sfx.py in remotion/public/sfx/ (run it once).
 
 intensity: low    -> b-roll whooshes + stats/price/CTA/money only (calm, emotional, documentary)
            medium -> + titles, callouts, lower thirds, proof stacks, highlighted words (default)
-           high   -> + hard-cut swishes on punch-in cuts and out-whooshes (energetic UGC/VSL)
+           high   -> + out-whooshes on b-roll and swishes on raw punch-in cuts (energetic UGC/VSL)
+Every softened cut between main clips (cutTransition "blurZoom", the default) gets a whoosh at any intensity.
 """
 import argparse, json, os, re, shutil, subprocess, unicodedata
 
@@ -64,13 +66,13 @@ def main():
     ap.add_argument("--out")
     ap.add_argument("--intensity", default="medium", choices=["low", "medium", "high"])
     ap.add_argument("--keep-existing", action="store_true", help="append to plan['sfx'] instead of replacing it")
-    ap.add_argument("--db-under", type=float, default=25.0,
-                    help="how many dB the SFX peaks sit under the voice peak (regla 70/30: 20-30, never under 12)")
+    ap.add_argument("--db-under", type=float, default=14.0,
+                    help="how many dB the SFX peaks sit under the voice peak (Antonio: recommended 20-30, hard limit never closer than 12; the user found 25 and 20 too quiet -> 14)")
     ap.add_argument("--synthetic", action="store_true",
                     help="use only the generated sounds of make_sfx.py, not the user's library (sfx_library.py)")
     a = ap.parse_args()
-    if not 20 <= a.db_under <= 30:
-        print(f"WARNING --db-under {a.db_under}: la regla es que los efectos queden entre -20 y -30 dB bajo la voz")
+    if a.db_under < 12:
+        print(f"WARNING --db-under {a.db_under}: Antonio prohibe efectos por encima de -12 dB bajo la voz (la opacan)")
     plan = json.load(open(a.plan, encoding="utf-8"))
     lvl = {"low": 0, "medium": 1, "high": 2}[a.intensity]
     ev = []  # (atMs, sound, weight, may_repeat)
@@ -127,14 +129,20 @@ def main():
             add(bt["atMs"] + 60, "pop", 0.8)
         # highlighted words ("palabras de peso") get a sound too, alternating pop / ding
         for i, w in enumerate([w for w in plan.get("captions", []) or [] if w.get("emphasis")]):
-            add(w["startMs"], "pop" if i % 2 == 0 else "ding", 0.8)
-    if lvl >= 2:
-        fps = plan.get("fps", 30)
-        t = 0.0
-        for i, c in enumerate(plan.get("clips", [])):
-            if i > 0 and c.get("zoom", 1) != plan["clips"][i - 1].get("zoom", 1):
-                add(t * 1000 - 40, "whoosh_fast", 0.6)
-            t += c["endAtSeconds"] - c["startFromSeconds"]
+            add(w["startMs"], "pop" if i % 2 == 0 else "ding")
+    # rating / counter cards: bad score = a hit (negative), good = ding, mid = pop, counters = a soft click
+    for s in plan.get("scoreCards", []) or []:
+        add(s["atMs"] + 150, {"bad": "hit_low", "good": "ding", "mid": "pop"}.get(s.get("tone"), "click_soft"))
+    # every softened cut (EditPlan.cutTransition / Clip.cut, default blurZoom) is a transition -> it gets a whoosh
+    # (Antonio); raw cuts only get one on a punch-in change, and only at high intensity
+    default_cut = plan.get("cutTransition", "blurZoom")
+    t = 0.0
+    for i, c in enumerate(plan.get("clips", [])):
+        if i > 0:
+            soft = c.get("cut", default_cut) == "blurZoom"
+            if soft or (lvl >= 2 and c.get("zoom", 1) != plan["clips"][i - 1].get("zoom", 1)):
+                add(t * 1000 - 120, "whoosh_fast")
+        t += c["endAtSeconds"] - c["startFromSeconds"]
 
     # thin out: highest priority first, respect min gap and a per-10s density cap
     ev.sort(key=lambda e: (-PRIORITY[e[1]], e[0]))
@@ -160,8 +168,13 @@ def main():
 
     # level every hit from measured peaks: sfx peak = voice peak - db_under
     clips = plan.get("clips") or []
-    voice = peak_db(os.path.join(PUBLIC, clips[0]["src"])) if clips else None
-    if voice is None:
+    silent = bool(clips) and all(c.get("volume", 1) == 0 for c in clips)
+    # text-only ads (every clip muted): there is no voice to sit under -> level against a nominal -3 dBFS voice
+    voice = None if silent else (peak_db(os.path.join(PUBLIC, clips[0]["src"])) if clips else None)
+    if silent:
+        voice = -3.0
+        print("(video sin voz: efectos nivelados contra una voz de referencia de -3 dBFS)")
+    elif voice is None:
         voice = -3.0
         print("WARNING no pude medir la voz (clips[0].src); asumo pico de voz -3 dBFS")
     picker = None

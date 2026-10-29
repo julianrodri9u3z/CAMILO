@@ -16,8 +16,12 @@ export const TitleBanner: React.FC<{
   position?: "top" | "lower" | "topEdge";
   bg?: "white" | "black" | "none";
   color?: string;
-}> = ({ text, position = "top", bg = "white", color }) => {
+  /** Exact distance from the top (px at 1080x1920), overriding `position` -- to keep the title off the face. */
+  topPx?: number;
+}> = ({ text, position: pos = "top", bg = "white", color, topPx }) => {
+  const position = topPx !== undefined ? "top" : pos;
   const isLower = position === "lower";
+  const top = topPx ?? 540;
   const isBlack = bg === "black";
 
   if (bg === "none") {
@@ -28,7 +32,7 @@ export const TitleBanner: React.FC<{
       <AbsoluteFill style={{ justifyContent: isLower ? "flex-end" : "flex-start", alignItems: "center" }}>
         <div
           style={{
-            marginTop: position === "topEdge" ? 90 : isLower ? 0 : 540,
+            marginTop: position === "topEdge" ? 90 : isLower ? 0 : top,
             marginBottom: isLower ? 420 : 0,
             maxWidth: "90%",
             textAlign: "center",
@@ -60,7 +64,7 @@ export const TitleBanner: React.FC<{
           // typical selfie/talking-head framing). "lower": sits in the same
           // rough band as word captions, matching the podcast-reference title
           // card's position.
-          marginTop: isLower ? 0 : position === "topEdge" ? 90 : 540,
+          marginTop: isLower ? 0 : position === "topEdge" ? 90 : top,
           marginBottom: isLower ? 420 : 0,
           maxWidth: "88%",
           padding: "16px 28px",

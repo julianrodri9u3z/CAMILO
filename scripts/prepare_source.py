@@ -64,8 +64,10 @@ def main():
         shutil.copyfile(a.video, a.out)
         print("copied:", a.out)
         return
+    # -bf 0: no B-frames. With them, Remotion's compositor intermittently failed to seek ("No frame found at
+    # position ...", seen 2026-10-29 on a re-encoded HEVC A-roll) when several frames are read in parallel.
     cmd = ["ffmpeg", "-y", "-v", "error", "-i", a.video, "-c:v", "libx264", "-crf", "16", "-preset", "fast",
-           "-g", "12", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart"]
+           "-g", "12", "-bf", "0", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart"]
     if vfr:
         cmd += ["-vsync", "cfr", "-r", str(round(fps_of(s["avg_frame_rate"]), 3))]
     subprocess.run(cmd + [a.out], check=True, stdin=subprocess.DEVNULL)

@@ -11,6 +11,11 @@ description: Edita cualquier video crudo (footage propio, clips generados con vi
 > solo palabras de peso resaltadas, zona segura, nada sobre los ojos, cifras en verde, b-roll literal y acorde
 > al estatus del experto. Si un perfil de estilo o un default choca con esas reglas, **ganan las reglas**.
 > Pasa su checklist antes de entregar.
+>
+> **Perfiles de cliente:** si el video es para un cliente del usuario, lee también su perfil privado en
+> `~/.bcc-toolkit/clientes/` (índice en `README.md`: ángulos, hooks, estructura de guion, oferta exacta, formato
+> visual y brief de música sacados de sus anuncios ganadores). Las reglas de Antonio mandan sobre el perfil.
+> Esos perfiles no se suben a este repo (es público).
 
 Convierte un video crudo en un anuncio editado, en uno de los estilos/formatos
 aprendidos (`cinematografico`, `ugc-ia`, `tiktok`, `chisme`, `podcast`,
@@ -535,14 +540,16 @@ segundos × `fps` (30 por defecto) -- sin contar el CTA.
 
 ### 9. Renderizar
 
-Antes de renderizar: `match_broll_grade.py` (si hay b-roll), define `grade` sutil en el plan (p. ej. `{"contrast":1.05,"saturation":1.04,"temperature":0.12,"fade":0.03,"grain":0.14}`) y corre `add_sfx.py --intensity low|medium|high` (low para emotivo/documental, medium por defecto, high para UGC/VSL enérgico). `add_sfx.py` ya aplica las reglas de Antonio: nivela cada efecto a `--db-under 25` dB bajo el pico medido de la voz (rango permitido 20-30), cambia repeticiones seguidas por otro sonido y pone cachín (`sfx/cash.wav`) en las palabras de dinero; marca con `emphasis: true` en `captions` solo las palabras de peso, que también reciben efecto. **Usa la librería de sonidos reales del usuario** (`~/Documents/SONIDOS-FX`, catálogo en `~/.bcc-toolkit/sfx-catalog.json`, hecho con `scripts/sfx_library.py index`): rota entre sus archivos por rol (whoosh, riser, hit, money, ding, pop, click…), los recorta y los copia a `remotion/public/sfx-lib/`; los sonidos sintéticos solo cubren los roles vacíos (`--synthetic` fuerza los sintéticos). Los packs de memes (carpetas `comical`, `Mai Sound Pack`) nunca se usan solos: solo si el usuario lo pide para un experto juguetón. Para un b-roll literal (auto, cocina, agua, fuego, oficina…) busca a mano en el rol `foley` (`sfx_library.py list --role foley`) y agrégalo al plan con el mismo nivel −25 dB. Si el usuario agrega sonidos a la carpeta, vuelve a correr `sfx_library.py index`. Detalle en `references/gramatica-de-edicion.md`.
+Antes de renderizar: `match_broll_grade.py` (si hay b-roll), define `grade` sutil en el plan (p. ej. `{"contrast":1.05,"saturation":1.04,"temperature":0.12,"fade":0.03,"grain":0.14}`) y corre `add_sfx.py --intensity low|medium|high` (low para emotivo/documental, medium por defecto, high para UGC/VSL enérgico). `add_sfx.py` ya aplica las reglas de Antonio: nivela cada efecto a `--db-under 14` dB bajo el pico medido de la voz (Antonio: nunca por encima de −12; el usuario los pidió más audibles dos veces: 14), cambia repeticiones seguidas por otro sonido y pone cachín (`sfx/cash.wav`) en las palabras de dinero; marca con `emphasis: true` en `captions` solo las palabras de peso, que también reciben efecto. **Usa la librería de sonidos reales del usuario** (`~/Documents/SONIDOS-FX`, catálogo en `~/.bcc-toolkit/sfx-catalog.json`, hecho con `scripts/sfx_library.py index`): rota entre sus archivos por rol (whoosh, riser, hit, money, ding, pop, click…), los recorta y los copia a `remotion/public/sfx-lib/`; los sonidos sintéticos solo cubren los roles vacíos (`--synthetic` fuerza los sintéticos). Los packs de memes (carpetas `comical`, `Mai Sound Pack`) nunca se usan solos: solo si el usuario lo pide para un experto juguetón. Para un b-roll literal (auto, cocina, agua, fuego, oficina…) busca a mano en el rol `foley` (`sfx_library.py list --role foley`) y agrégalo al plan con el mismo nivel −14 dB. Si el usuario agrega sonidos a la carpeta, vuelve a correr `sfx_library.py index`. Detalle en `references/gramatica-de-edicion.md`.
 
 ```bash
-cd ~/.claude/skills/editar-anuncios/remotion
-npx remotion render src/index.ts UgcIA /ruta/salida/final.mp4 --props=/tmp/ref-analysis/<slug>/job.json --gl=angle
+python3 scripts/render_job.py --plan /tmp/ref-analysis/<slug>/job.json --out /ruta/salida/render.mp4 --composition UgcIA
 ```
 (el nombre de composición según el estilo elegido). El render es headless, no
-hace falta ninguna app abierta.
+hace falta ninguna app abierta. **Usa siempre `render_job.py`, no `npx remotion render` a mano:** el compositor de
+Remotion falla al azar con "No frame found at position …" y el script reintenta con menos paralelismo; además borra
+el render anterior antes de empezar, así un fallo nunca deja un archivo viejo que luego se masterice y se entregue
+como nuevo. Si el script sale con error, no sigas a `finalize.py`.
 
 **`--gl=angle` es obligatorio, no opcional, desde que se sumaron transiciones
 con shader (`zoomBlur`, `crossZoom`, `filmBurn`, `dreamyZoom` — ver

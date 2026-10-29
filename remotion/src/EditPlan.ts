@@ -5,6 +5,7 @@
  * (-> broll). Timestamps are absolute milliseconds from the start of the
  * final edit, not from the source clip.
  */
+import type { CaptionVariant } from "./styles/config";
 
 export type Clip = {
   /**
@@ -28,6 +29,13 @@ export type Clip = {
   zoom?: number;
   /** Vertical anchor of the zoom crop: "top" keeps the head in frame when zooming in. Default "center". */
   zoomOrigin?: "top" | "center" | "bottom";
+  /**
+   * How the cut INTO this clip looks, overriding the plan's `cutTransition` (e.g. "none" for a pause trimmed inside
+   * the same take -- a jump cut hidden by alternating `zoom` -- and the default blurZoom for real scene changes).
+   */
+  cut?: "blurZoom" | "none";
+  /** 0-1 volume of this clip's own audio (default 1). 0 for text-only ads whose generated clips carry babble. */
+  volume?: number;
 };
 
 export type CaptionWord = {
@@ -48,6 +56,11 @@ export type CaptionWord = {
   anchor?: "left" | "center" | "right";
   /** Extra px to lift this phrase above the style's default baseline (at 1080x1920). */
   liftPx?: number;
+  /**
+   * Starts a new on-screen phrase here. If ANY word in `captions` sets it, phrases are cut only at these marks (cut
+   * by meaning, never leaving a lone short word on screen -- reglas de Antonio) instead of the variant's word cap.
+   */
+  phraseStart?: boolean;
 };
 
 export type BrollInsert = {
@@ -147,6 +160,10 @@ export type EditPlan = {
   height: number;
   clips: Clip[];
   captions: CaptionWord[];
+  /** Per-job caption look, overriding the style's (e.g. "wordBox" so only the words of weight get the box). */
+  captionVariant?: CaptionVariant;
+  captionColor?: string;
+  captionHighlightColor?: string;
   broll: BrollInsert[];
   /** Path relative to remotion/public/, once a track is picked from the user's bank. Omit to render silent (music brief goes in the chat/report instead). */
   /** Overrides the style's caption distance from the bottom edge (px at 1080x1920). Lower = captions sit lower, clear of mid-frame graphics. */
@@ -158,6 +175,17 @@ export type EditPlan = {
   musicFullVolume?: number;
   /** Overrides the style's default transition duration. */
   transitionDurationMs?: number;
+  /**
+   * How HARD cuts between main clips are softened, without overlapping them (the voice lives in the clips, so an
+   * overlapping transition would double the audio and drift the captions). "blurZoom" (default): the outgoing clip
+   * blurs and pushes in over its last frames, the incoming one arrives blurred and settles -- reads as a smooth
+   * transition with a whoosh on top. "none": raw hard cut. The user wants no abrupt jumps: keep the default.
+   */
+  cutTransition?: "blurZoom" | "none";
+  /** Overrides the style's b-roll fade (ms). Never below 250 ms: b-roll must not pop in/out abruptly. */
+  brollFadeMs?: number;
+  /** Rating / counter cards at the top of the safe zone (components/ScoreCard.tsx): "SUPLEMENTOS DEL SÚPER 1/10", "3/13". */
+  scoreCards?: { label?: string; score?: string; tone?: "bad" | "mid" | "good" | "neutral"; atMs: number; durationMs: number; y?: number }[];
   /**
    * Optional title/hook banner (e.g. "POV: ..." style seen in real TikTok
    * UGC, or an opening title card like "LOS 7 ARCÁNGELES DE DIOS"). `text`
@@ -185,6 +213,8 @@ export type EditPlan = {
     bg?: "white" | "black" | "none";
     /** Text color override. Default: black on white, white on black/none. */
     color?: string;
+    /** Exact distance from the top in px (1080x1920), overriding `position` -- keep it off the face and in the safe zone. */
+    topPx?: number;
   };
   /**
    * Optional big all-caps keyword callouts that flash briefly over the video

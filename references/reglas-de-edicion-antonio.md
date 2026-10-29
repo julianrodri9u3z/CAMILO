@@ -20,8 +20,8 @@ Si no, se omite.
 - **Regla 70/30.** La voz va alrededor de **0** en el medidor. Los efectos de sonido van entre **−20 y −30 dB**
   (lo recomendado, −30). **Nunca por encima de −12.** Un efecto al 40-50 % de la voz la opaca y "no se entiende
   el mensaje": ya no se acepta ni un solo video con efectos altos.
-  → `scripts/add_sfx.py` nivela cada efecto midiendo el pico real de la voz (`--db-under 25` por defecto,
-  permitido 20-30).
+  → `scripts/add_sfx.py` nivela cada efecto midiendo el pico real de la voz (`--db-under 14` por defecto: el usuario los pidió más audibles dos veces; nunca más cerca de −12,
+  que es el límite duro de Antonio).
 - **No repetir el mismo efecto seguido.** El mismo sonido en poco tiempo suena monótono y le quita esencia al
   video. Se varía (cachín / campana / caja registradora; pop / clic). Excepción: una *secuencia* deliberada
   (enumeración "preguntar, diagnosticar…", una lista que se va contando) sí puede repetir el sonido.
@@ -105,6 +105,23 @@ Si no, se omite.
 - **Autoridad.** Si aparece alguien conocido, mostrar su prueba social (por ejemplo, un motion con su
   Instagram y número de seguidores).
 
+## 4. Preferencias del usuario (2026-10-29) — también obligatorias
+
+- **B-roll con tiempo para verse:** mínimo **2,5 s** por inserto (ideal 2,5-3,5 s); nunca un flash de 1-1,5 s.
+- **Nada de saltos bruscos:** todo cambio lleva transición.
+  - Cortes entre clips principales: `cutTransition: "blurZoom"` (default del motor). Es un desenfoque y un empuje de
+    unos 0,2 s a cada lado del corte, sin solapar clips: la voz y los subtítulos siguen sincronizados. Lleva un
+    whoosh, que pone `add_sfx.py`.
+  - B-roll: entra y sale con fundido de 250 ms o más, con desenfoque y zoom. Dos b-roll seguidos se funden uno
+    encima del otro, sin asomar el A-roll entre ellos.
+  - No usar las transiciones de `TransitionSeries` (`transition` del estilo) en videos donde la voz va dentro de los
+    clips: solapan el audio y desfasan los subtítulos.
+- **Organización:** b-roll ordenado según el guion. Mejor pocos y largos que muchos y cortados.
+- **Subtítulos sutiles y juntos** (2026-10-29, "nunca me vuelvas a separar los subtítulos así"): tamaño moderado
+  (44 px a 1080 de ancho en `wordBox`), espacio normal entre palabras (sin relleno ni margen por palabra), sin
+  contorno grueso que separe las letras (sombra suave en su lugar), centrados en la zona segura. La caja amarilla
+  solo envuelve la palabra de peso, ajustada, sin abrir hueco con las vecinas.
+
 ## Checklist antes de entregar (además de `qa_render.py`)
 
 1. ¿Efectos entre −20 y −30 dB bajo la voz, sin ninguno que la opaque?
@@ -116,3 +133,4 @@ Si no, se omite.
 7. ¿Cada b-roll es literal a lo que se dice, va con la emoción y con el estatus del experto?
 8. ¿Color parejo entre tomas y línea de ojos estable?
 9. ¿Lo entendería un niño de 5 años? Si algo no, quitarlo.
+10. ¿Cada b-roll dura 2,5 s o más y todos los cambios tienen transición, sin ningún salto brusco?

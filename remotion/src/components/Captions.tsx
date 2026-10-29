@@ -18,11 +18,14 @@ const groupIntoLines = (
 ): Line[] => {
   const lines: Line[] = [];
   let current: CaptionWord[] = [];
+  // the plan marked phrase starts by hand (by meaning): honor only those, never the word cap
+  const explicit = words.some((w) => w.phraseStart);
 
   for (const word of words) {
     const prev = current[current.length - 1];
     const gapTooBig = prev ? word.startMs - prev.endMs > maxGapMs : false;
-    if (current.length > 0 && (gapTooBig || current.length >= maxWordsPerLine)) {
+    const brk = explicit ? !!word.phraseStart : gapTooBig || current.length >= maxWordsPerLine;
+    if (current.length > 0 && brk) {
       lines.push({
         words: current,
         startMs: current[0].startMs,
@@ -193,41 +196,55 @@ export const Captions: React.FC<{
     // (ELIDA) and purple boxes (GAIA); highlightColor = box color.
     const line = phraseLines.find((l) => nowMs >= l.startMs && nowMs <= l.endMs + 200);
     if (!line) return null;
-    const anyFlagged = line.words.some((w) => w.emphasis);
+    // once the plan flags its words of weight anywhere, unflagged phrases get no box at all (only words of weight
+    // are highlighted -- reglas de Antonio); with no flags at all, fall back to boxing the spoken word
+    const anyFlagged = words.some((w) => w.emphasis);
     return (
       <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center" }}>
         <div
           style={{
             marginBottom: bottomPx,
-            padding: "0 50px",
+            padding: "0 90px",
             textAlign: "center",
             fontFamily,
-            fontSize: 54,
-            fontWeight: 900,
+            // subtle (user, 2026-10-29: "sutiles, un poco más pequeños, nunca tan separados"): normal word spacing,
+            // no per-word padding/margin and no heavy outline (it visually spreads the letters); a soft shadow instead
+            fontSize: 44,
+            fontWeight: 800,
+            letterSpacing: 0,
+            wordSpacing: 0,
             textTransform: "uppercase",
-            lineHeight: 1.25,
+            lineHeight: 1.3,
             color,
+            textShadow: "0 2px 6px rgba(0,0,0,0.75), 0 0 2px rgba(0,0,0,0.9)",
+            // a phrase that wraps splits into even lines, never one lonely word underneath (reglas de Antonio)
+            ...({ textWrap: "balance" } as React.CSSProperties),
           }}
         >
           {line.words.map((w, i) => {
             const boxed = anyFlagged ? !!w.emphasis : nowMs >= w.startMs && nowMs <= w.endMs;
             return (
-              <span
-                key={i}
-                style={{
-                  padding: "2px 10px",
-                  margin: "0 2px",
-                  borderRadius: 10,
-                  backgroundColor: boxed ? highlightColor : "transparent",
-                  WebkitTextStroke: boxed ? "0px" : "2px #000",
-                  paintOrder: "stroke fill",
-                  textShadow: boxed ? "none" : "0 3px 8px rgba(0,0,0,0.55)",
-                  boxDecorationBreak: "clone",
-                }}
-              >
-                {w.text}
+              <React.Fragment key={i}>
+                {boxed ? (
+                  // only the word of weight gets a box; its padding is cancelled by a negative margin so the gap to
+                  // the neighbouring words stays a normal space
+                  <span
+                    style={{
+                      padding: "0 7px",
+                      margin: "0 -4px",
+                      borderRadius: 7,
+                      backgroundColor: highlightColor,
+                      textShadow: "none",
+                      boxDecorationBreak: "clone",
+                    }}
+                  >
+                    {w.text}
+                  </span>
+                ) : (
+                  w.text
+                )}
                 {i < line.words.length - 1 ? " " : ""}
-              </span>
+              </React.Fragment>
             );
           })}
         </div>

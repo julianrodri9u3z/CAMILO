@@ -9,6 +9,8 @@ node_modules/
 remotion/out/
 remotion/build/
 remotion/public/jobs/
+# copias recortadas de la libreria de sonidos del usuario (no es nuestra para redistribuir)
+remotion/public/sfx-lib/
 *.mp4
 *.mov
 

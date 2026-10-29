@@ -38,6 +38,9 @@ MONEY = re.compile(r"^(dinero|plata|pesos?|dolares?|euros?|usd|cash|vend\w*|comp
                    r"millon\w*|ventas?|precio|cobr\w*|rentab\w*|profit|ahorr\w*)$|^\$|\d+\s*(k|mil|€|\$)$")
 SKILL_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PUBLIC = os.path.join(SKILL_DIR, "remotion", "public")
+# synthetic sound -> role in the user's own library (scripts/sfx_library.py)
+ROLE = {"whoosh_soft": "whoosh", "whoosh_fast": "whoosh", "pop": "pop", "click_soft": "click", "tick": "tick",
+        "hit_low": "hit", "riser": "riser", "ding": "ding", "cash": "money"}
 
 
 def peak_db(path):
@@ -63,6 +66,8 @@ def main():
     ap.add_argument("--keep-existing", action="store_true", help="append to plan['sfx'] instead of replacing it")
     ap.add_argument("--db-under", type=float, default=25.0,
                     help="how many dB the SFX peaks sit under the voice peak (regla 70/30: 20-30, never under 12)")
+    ap.add_argument("--synthetic", action="store_true",
+                    help="use only the generated sounds of make_sfx.py, not the user's library (sfx_library.py)")
     a = ap.parse_args()
     if not 20 <= a.db_under <= 30:
         print(f"WARNING --db-under {a.db_under}: la regla es que los efectos queden entre -20 y -30 dB bajo la voz")
@@ -159,13 +164,27 @@ def main():
     if voice is None:
         voice = -3.0
         print("WARNING no pude medir la voz (clips[0].src); asumo pico de voz -3 dBFS")
+    picker = None
+    if not a.synthetic:
+        import sfx_library
+        picker = sfx_library.Picker(seed=len(plan.get("captions") or []))
+        if not picker.by_role:
+            picker = None
+            print("(sin catalogo de tu libreria: uso los sonidos sinteticos; corre `sfx_library.py index`)")
     cache = {}
     hits = []
+    from_lib = 0
     for ms, s, w, _ in varied:
-        src = f"sfx/{s}.wav"
-        if s not in cache:
-            cache[s] = peak_db(os.path.join(PUBLIC, src))
-        sp = cache[s] if cache[s] is not None else -4.0
+        item = picker.pick(ROLE[s]) if picker and picker.has(ROLE[s]) else None
+        if item:
+            src, sp = sfx_library.Picker.stage(item, ROLE[s])
+            from_lib += 1
+        else:
+            src = f"sfx/{s}.wav"
+            if s not in cache:
+                cache[s] = peak_db(os.path.join(PUBLIC, src))
+            sp = cache[s]
+        sp = sp if sp is not None else -4.0
         vol = 10 ** ((voice - a.db_under - sp) / 20) * w
         hits.append({"src": src, "atMs": ms, "volume": round(min(1.0, vol), 4)})
     if a.keep_existing:
@@ -174,8 +193,9 @@ def main():
     out = a.out or a.plan
     json.dump(plan, open(out, "w", encoding="utf-8"), indent=1, ensure_ascii=False)
     from collections import Counter
-    print(f"{len(hits)} sound hits ({a.intensity}, -{a.db_under:g} dB bajo la voz de {voice:.1f} dBFS, {swaps} cambiados por repeticion):",
-          dict(Counter(h['src'][4:-4] for h in hits)))
+    print(f"{len(hits)} sound hits ({a.intensity}, -{a.db_under:g} dB bajo la voz de {voice:.1f} dBFS, "
+          f"{swaps} cambiados por repeticion, {from_lib} de tu libreria):",
+          dict(Counter(ROLE.get(os.path.basename(h['src'])[:-4], os.path.basename(h['src']).split('_')[0]) for h in hits)))
     missing = sorted({h["src"] for h in hits if not os.path.isfile(os.path.join(PUBLIC, h["src"]))})
     if missing:
         print("WARNING missing sound files (run make_sfx.py):", missing)

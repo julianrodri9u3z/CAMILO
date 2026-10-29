@@ -1,0 +1,8 @@
+{
+  "name": "ads-video-toolkit",
+  "description": "Black Ads AI — pipeline completo de anuncios con IA: minar referencias, clonar copy/estilo, generar avatares con voz clonada, editar y subtitular.",
+  "version": "1.2.3",
+  "author": {
+    "name": "Eduardo Pulido"
+  }
+}

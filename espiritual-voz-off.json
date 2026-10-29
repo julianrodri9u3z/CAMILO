@@ -1,0 +1,16 @@
+{
+  "style": "espiritual-voz-off",
+  "n_ejemplos_analizados": 0,
+  "shot_duration_s": null,
+  "cuts_per_min": null,
+  "broll_ratio": null,
+  "transition_duration_ms": 300,
+  "transiciones_observadas": {},
+  "generos_musica_observados": {},
+  "notas_libres": [
+    "[2026-09-05] Nace de una prueba real: video de arcangeles (voz en off, sin hablante a camara, imagenes ilustradas por IA -- luz dorada, alas, siluetas) al que se le anadio un CTA nuevo. Caption observado: frase corta persistente en pantalla, palabra por palabra karaoke -- solo la palabra que se esta diciendo se resalta en cian (#22D3EE), el resto en blanco, mayusculas, sin contorno ni rebote. Justifico un CaptionVariant nuevo ('karaoke') distinto de 'bold' (una palabra gigante sola) y de 'plain' (una palabra sin resaltado).",
+    "[2026-09-05] Sin metricas de ritmo de corte todavia (no se corrio analyze_reference.py sobre el video completo) -- shot_duration_s/cuts_per_min/broll_ratio siguen en null a proposito, no inventar numeros.",
+    "[2026-09-05] Ver tambien video-ads-avatar/SKILL.md seccion 4b (limite duro de ~8s por clip de Veo) y la nota sobre imagenes de referencia que ya traen texto/figura quemados -- ambas aprendidas durante la misma prueba, relevantes si se genera b-roll nuevo para este estilo con Veo en vez de stock."
+  ],
+  "ultima_actualizacion": "2026-09-05"
+}

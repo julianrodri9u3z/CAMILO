@@ -1,0 +1,29 @@
+{
+  "style": "ugc-creador",
+  "n_ejemplos_analizados": 12,
+  "shot_duration_s": 5.42,
+  "cuts_per_min": 2.88,
+  "broll_ratio": null,
+  "transiciones_observadas": {
+    "hard_cut": 18,
+    "zoom_punch": 3,
+    "crossfade": 1
+  },
+  "generos_musica_observados": {
+    "pop synth": 11,
+    "sin musica": 1
+  },
+  "notas_libres": [
+    "[2026-09-23] Mayusculas blanco grueso pequeno con contorno negro, centro-bajo, palabra por palabra.",
+    "[2026-09-23] [elida8 'CLT / dashboard'] Ad de afiliada con MUCHA PRUEBA en pantalla: tarjeta flotante 'Dashboard - Total faturado R$11.237,80', lockscreen de celular con notificaciones Kiwify, captura de laptop con grafico de ventas; b-roll de evento/sala llena; disolvencia entre dos tomas. CTA final tipo STICKER: 'CLIQUE EM SAIBA MAIS' con letra manuscrita blanca sobre pincelada rosa con destellos. 8.6 cortes/min.",
+    "[2026-09-23] Mayusculas blanco grueso con contorno negro, centro-bajo; CTA en tipografia dorada glossy serif grande 'CLIQUE EM SAIBA MAIS'.",
+    "[2026-09-23] [elida9 'mae atipica'] Historia personal: titulo blanco sin caja de 4 lineas arriba (POV largo), notificaciones bancarias Nubank de Kiwify como PRUEBA en lockscreen ampliado, tarjeta-cita blanca sobre rosa con el promesa; b-roll emocional (hija, cafe). Cierra con CTA tipografico dorado. Estructura: historia -> prueba bancaria -> promesa -> CTA.",
+    "[2026-09-23] 'Native': minusculas blancas pequenas con sombra suave, sin contorno ni caja, centro-bajo, frase completa.",
+    "[2026-09-23] [root1 Q&A instagram] Sticker de PREGUNTA de Instagram ('Hazme una pregunta / Mas de treinta anos comenzando en lo digital...') en el arranque como gancho; creadora sentada en un sofa; BURBUJAS circulares PIP de otras personas (un hombre al telefono, una clienta) cuando las menciona; FLECHAS ROJAS apuntando abajo en el CTA 'es clic debajo'; cierra con una tarjeta 'Una historia REAL'. ~5.7 cortes/min.",
+    "[2026-09-23] Mayusculas blanco grueso con UNA palabra en amarillo por frase (enfasis elegido, no la palabra activa), contorno negro, centro-bajo.",
+    "[2026-09-23] [root2 'ebooks $3000'] STICKER de pregunta persistente TODO el video en el centro ('Que harias si necesitaras $3000 en los proximos 30 dias?'); pantalla de iPad con escritura a mano rosa, mockups de portadas de ebook (sostenidos en pantalla), y capturas de dashboard de ventas con tarjeta flotante 'Ingreso Neto USD 500,00' y zoom a 'USD$ 17.801,61'. ~6.4 cortes/min.",
+    "[2026-09-23] Nativo de TikTok: texto blanco pequeno sentence-case (con emoji al final: 'Y VAMOS A HACER DINERO...'), frase completa a media-baja altura, sombra suave.",
+    "[2026-09-23] [root3 @itsfabianacarrasco] PLANO SECUENCIA de 42s hablando a camara en un cuarto, subtitulos nativos, SIN musica: el formato mas crudo/autentico de todos -- produccion casi nula. Un extremo util del rango de 'tiktok': cero motion graphics."
+  ],
+  "ultima_actualizacion": "2026-09-23"
+}

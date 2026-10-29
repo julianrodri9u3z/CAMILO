@@ -1,0 +1,20 @@
+{
+  "name": "editar-anuncios-remotion",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "remotion studio src/index.ts",
+    "render": "remotion render src/index.ts"
+  },
+  "dependencies": {
+    "@remotion/cli": "latest",
+    "@remotion/transitions": "latest",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "latest"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.1",
+    "typescript": "^5.6.0"
+  }
+}

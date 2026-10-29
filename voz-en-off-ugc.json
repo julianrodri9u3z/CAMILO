@@ -1,0 +1,33 @@
+{
+  "style": "voz-en-off-ugc",
+  "n_ejemplos_analizados": 7,
+  "shot_duration_s": 1.98,
+  "cuts_per_min": 20.44,
+  "broll_ratio": 0.95,
+  "transition_duration_ms": 250,
+  "transiciones_observadas": {
+    "hard_cut": 23,
+    "crossfade": 2,
+    "zoom_punch": 2
+  },
+  "generos_musica_observados": {
+    "pop suave": 1,
+    "lo-fi": 1,
+    "pop synth": 5,
+    "pop synth / trend TikTok": 1,
+    "pop synth optimista": 1
+  },
+  "notas_libres": [
+    "[2026-08-22] Interior de casa, bebe, objetos de lujo, libros, oficina, cocina -- variedad de escenas de 'dia en la vida' familiar/domestico, sin hablante a camara.",
+    "[2026-08-22] Nicho ligeramente distinto (vida familiar/domestica) dentro del mismo patron de edicion que el resto de voz-en-off-ugc.",
+    "[2026-08-22] Palabra por palabra karaoke, fondo amarillo, fuente gruesa blanca, posicion centro-baja, animacion pop.",
+    "[2026-08-22] Vibrante, saturado, tonos calidos, contraste medio.",
+    "[2026-08-22] Perros (refugio), dinero, paisajes, manos escribiendo, autos de lujo, rascacielos, y en otro segmento familia celebrando mudanza con globos 'NEW HOME' -- variedad amplia de nichos (mascotas, bienes raices, dinero) dentro del mismo patron visual.",
+    "[2026-08-22] El shot mediano mas largo de los 7 ejemplos de voz-en-off-ugc (2.73s) -- el nicho de contenido varia mucho video a video (mascotas, familia, dinero) pero el tratamiento de edicion es identico en todos.",
+    "[2026-08-22] Dos estilos de caption conviven en este ejemplo: frase completa sobre tarjeta blanca redondeada con texto dorado/marron (instrucciones tipo receta/ritual), y palabra por palabra karaoke clasico con fondo/resaltado en otros tramos -- mas variado que el resto del estilo.",
+    "[2026-08-22] Saturado, calido, alto contraste, estilo vibrante tipo TikTok.",
+    "[2026-08-22] Objetos de ritual (vaso de agua, vela, colgante) en primer plano cercano, y stock de silueta en cima de montaña al atardecer -- mezcla b-roll casero/producto con stock premium. Incluye un frame de transicion en blanco solido con solo texto, similar al 'flash' de color visto en otros ejemplos del estilo.",
+    "[2026-08-22] Nicho de contenido espiritual/ritual (mismo terreno tematico que cinematografico) pero con el tratamiento de edicion tipico de voz-en-off-ugc (avatar nunca a camara, b-roll casi total)."
+  ],
+  "ultima_actualizacion": "2026-08-22"
+}

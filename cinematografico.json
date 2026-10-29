@@ -1,0 +1,34 @@
+{
+  "style": "cinematografico",
+  "n_ejemplos_analizados": 8,
+  "shot_duration_s": 2.44,
+  "cuts_per_min": 23.91,
+  "broll_ratio": 0.92,
+  "transition_duration_ms": 500,
+  "transiciones_observadas": {
+    "crossfade": 5,
+    "match_cut": 2,
+    "hard_cut": 32,
+    "zoom_punch": 6,
+    "slide": 1
+  },
+  "generos_musica_observados": {
+    "cinematic score": 7,
+    "piano ambiental": 2,
+    "thriller/documental de tension": 1,
+    "motivacional/pop energetico": 2
+  },
+  "notas_libres": [
+    "[2026-09-22] Mezcla clip de entrevista/podcast (auriculares, microfono, silla verde de estudio) con b-roll mistico (silueta ardiendo/meditando en rojo), libro religioso antiguo 'Missale', familia caminando de la mano, cielo nocturno.",
+    "[2026-09-22] Unico de los 8 ejemplos sin ningun subtitulo -- si se usa este video como referencia literal, el EditPlan no deberia forzar captions.",
+    "[2026-09-22] Palabra por palabra karaoke, blanco con contorno negro, SIN color de resaltado adicional -- posicion centro-baja.",
+    "[2026-09-22] Saturado y vibrante en general, pero con CODIGO DE COLOR POR TEMA dentro del mismo video: tonos calidos/dorados en escenas de 'milagro'/riqueza, tonos frios/azules en escenas de agua/ciencia -- tecnica de grading mas deliberada que el resto del estilo.",
+    "[2026-09-22] Manos, agua, microscopios, libros antiguos, gente orando, dinero, parejas, pantallas de computadora -- b-roll muy variado, ~100 cortes duros (el mas cortado de los 8 ejemplos).",
+    "[2026-09-22] El grading por tema (calido=riqueza/milagro, frio=ciencia/agua) es una tecnica puntual que vale la pena replicar cuando el guion mezcla ambos tipos de contenido en el mismo anuncio.",
+    "[2026-09-22] Palabra por palabra karaoke, blanco con resaltado AMARILLO -- posicion centro-baja, animacion pop (aqui SI hay highlight, a diferencia de cine01/02/06 de este mismo lote).",
+    "[2026-09-22] Saturado, calido, alto contraste, estilo TikTok.",
+    "[2026-09-22] Personas en distintas situaciones, objetos simbolicos (cerebro, dinero, Biblia), paisajes.",
+    "[2026-09-22] Dentro de este lote de 5 ejemplos nuevos, el uso de resaltado de color en captions esta dividido: cine02/04/06 sin resaltado, cine01 sin caja, cine07 CON amarillo -- no es un rasgo fijo del estilo, varia video a video."
+  ],
+  "ultima_actualizacion": "2026-09-22"
+}

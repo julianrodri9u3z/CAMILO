@@ -1,0 +1,33 @@
+{
+  "style": "chisme",
+  "n_ejemplos_analizados": 4,
+  "shot_duration_s": 2.12,
+  "cuts_per_min": 22.05,
+  "broll_ratio": 0.64,
+  "transition_duration_ms": 100,
+  "transiciones_observadas": {
+    "hard_cut": 21,
+    "zoom_punch": 3,
+    "crossfade": 1
+  },
+  "generos_musica_observados": {
+    "stinger dramatico": 1,
+    "suspenso ligero": 2,
+    "pop dramatico": 1,
+    "pop synth": 2,
+    "storytime motivacional": 1
+  },
+  "notas_libres": [
+    "[2026-08-22] Metraje de archivo de celebridades: texturas de libros antiguos, estadios de futbol, tiendas de lujo, parejas -- mezcla contenido deportivo/celebridad con imagenes de lujo/aspiracionales.",
+    "[2026-08-22] Cuts_per_min (22.2) mas alto que chisme1 (17.0) pero mismo patron de caption y estructura -- el ritmo dentro de 'chisme' varia bastante segun el video (17-33 cortes/min en los 3 ejemplos).",
+    "[2026-08-22] Palabra por palabra karaoke, fuente gruesa blanca, posicion centro-baja, animacion pop -- aca el color de resaltado varia (visto amarillo y tambien morado/violeta segun la palabra), no es un unico color fijo.",
+    "[2026-08-22] Vibrante tipo TikTok, saturado, calido, alto contraste.",
+    "[2026-08-22] Manos, notas escritas, dinero, pantallas de celular como apoyo intercalado con el hablante/narrador y metraje de archivo de celebridades.",
+    "[2026-08-22] El mas rapido de los tres chisme (0.8s de plano mediano, 33.3 cortes/min) -- confirma que el rango de ritmo dentro de 'chisme' es amplio (17-33 cortes/min).",
+    "[2026-09-22] Palabra por palabra karaoke, blanco con contorno negro y resaltado amarillo, centro-baja, animacion pop -- consistente con el resto de chisme.",
+    "[2026-09-22] Vibrante, saturado, contraste medio-alto, estilo TikTok/Reels.",
+    "[2026-09-22] Manos con documentos, dinero, una Biblia antigua, una maquina contadora de billetes, reacciones de personas -- contenido de 'storytime' financiero/moral, NO chisme de celebridades como los otros 3 ejemplos del estilo.",
+    "[2026-09-22] El mas lento de los 4 ejemplos de chisme (3.37s mediana vs 0.8-1.71s de los otros 3) y el unico que no es chisme de celebridades -- es narrativa tipo 'storytime' financiero/biblico. La estructura de edicion (corte duro, karaoke amarillo) es identica al resto, pero el contenido/nicho es distinto -- puede ser que 'chisme' en la carpeta del usuario cubra cualquier narrativa con gancho dramatico, no solo celebridades."
+  ],
+  "ultima_actualizacion": "2026-09-22"
+}

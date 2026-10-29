@@ -1,0 +1,28 @@
+{
+  "style": "trailer-documental",
+  "n_ejemplos_analizados": 7,
+  "transiciones_observadas": {
+    "hard_cut": 21,
+    "crossfade": 7,
+    "zoom_punch": 6,
+    "match_cut": 1
+  },
+  "generos_musica_observados": {
+    "cinematic score": 7
+  },
+  "notas_libres": [
+    "[2026-09-23] SIN subtitulos corridos; LOWER-THIRD de nombre + credencial sobre barra oscura con linea dorada ('GREGG BRADEN / Geologo y autor de Best Sellers del NYT') al presentar a cada experto.",
+    "[2026-09-23] [gaia3 'Luna 108'] Formato HORIZONTAL 16:9 (135s, 4 cortes/min segun ffmpeg pero sub-detecta disolvencias): infografias de astronomia (linea 'x108 LUNAS' entre Tierra y Luna), ecuaciones y animaciones espaciales, entrevistas con lower-third. Ritmo mas lento, mas 'documental' que 'anuncio'.",
+    "[2026-09-23] Sin subtitulos.",
+    "[2026-09-23] [gaia4 'Templarios / Atlantida'] HORIZONTAL 16:9, el mas cortado de la serie (51 cortes/min): recreaciones CGI/IA de caballeros templarios y ciudades sumergidas, monumentos reales (Moai, Chichen Itza), un experto; end card con arte del titulo ('MISTERIOS DE LOS CABALLEROS TEMPLARIOS / SOLO EN Gaia / STREAMING EN Gaia.com'). Color desaturado.",
+    "[2026-09-23] Sin subtitulos corridos: TITULOS de seccion de una palabra ('NUEVA CIENCIA', 'PRIMER CONTACTO') en tipografia espaciada + lower-thirds en morado.",
+    "[2026-09-23] [gaia5 'Ciencia Sagrada'] HORIZONTAL: estructura de trailer con tarjetas de titulo ('NUEVA CIENCIA'), expertos con lower-third morado, b-roll simbolico (ojo, cerebro-galaxia, violin) y end card del programa con arte de planetas.",
+    "[2026-09-23] MAYUSCULAS blanco grueso, 2 lineas centro-bajo, con CAJA MORADA en 1-2 palabras clave por frase (enfasis editorial, p.ej. 'EN', 'CORRELACION', 'ELONGACION').",
+    "[2026-09-23] [gaia6 'Civilizaciones Antiguas'] VERTICAL: brand bug doble ('Civilizaciones Antiguas' izquierda + 'Gaia.com' derecha), b-roll de sitios arqueologicos y cráneos, tarjeta de titulo '6 CIVILIZACIONES ANTIGUAS', end card 'Bienvenido a Gaia / Disfruta 7 dias gratis'. El unico de la serie con subtitulos de enfasis en color.",
+    "[2026-09-23] Sin subtitulos; solo tarjetas de titulo.",
+    "[2026-09-23] [gaia7 'Simbolos Ocultos'] El mas corto (30s), HORIZONTAL: dinero/constitucion de EE.UU. en verde-dorado, simbolos animados (ojo de Horus, piramide) sobre fuego, tarjetas de titulo 'LA VIDA SECRETA DE LOS SIMBOLOS' / 'REVELA LOS SIMBOLOS OCULTOS' y end card. Casi sin texto hablado en pantalla."
+  ],
+  "shot_duration_s": 2.95,
+  "cuts_per_min": 28.06,
+  "ultima_actualizacion": "2026-09-23"
+}

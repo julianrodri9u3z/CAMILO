@@ -1,0 +1,31 @@
+{
+  "style": "ugc-ia",
+  "n_ejemplos_analizados": 4,
+  "shot_duration_s": 1.73,
+  "cuts_per_min": 23.13,
+  "broll_ratio": 0.54,
+  "transition_duration_ms": 80,
+  "transiciones_observadas": {
+    "hard_cut": 17,
+    "jump_cut": 1,
+    "crossfade": 1
+  },
+  "generos_musica_observados": {
+    "pop upbeat": 1,
+    "sonido de trend": 1,
+    "pop synth": 4
+  },
+  "notas_libres": [
+    "[2026-08-22] Mezcla de selfie/UGC (persona hablando a camara en auto, en restaurante) con b-roll aspiracional de lujo: yate, auto deportivo, tablero de auto de lujo -- mas b-roll del esperado para UGC (perfil semilla decia ~20%, aca se ve mas cerca de 50-60%).",
+    "[2026-08-22] Este ejemplo de UGC-IA tiene bastante mas b-roll de 'estilo de vida' que ugc1 -- el patron comun entre los ejemplos de UGC parece ser contenido aspiracional (lujo, dinero, viajes) con selfie + insertos, no solo el hablante solo.",
+    "[2026-08-22] Palabra por palabra karaoke, fuente gruesa blanca, caja de resaltado amarilla, posicion centro/centro-baja, animacion pop -- mismo patron que ugc1 y ugc2.",
+    "[2026-08-22] Natural con tonos calidos, contraste medio, estilo vibrante tipo TikTok pero menos saturado que ugc2.",
+    "[2026-08-22] Mezcla de b-roll aspiracional (yates, autos, dinero, bodas, paisajes) con selfie/hablante -- otra vez contenido de lujo/estilo de vida como soporte visual.",
+    "[2026-08-22] Tercer ejemplo consecutivo de UGC-IA con tematica de lujo/dinero como b-roll -- parece ser el nicho dominante del usuario en este estilo, no una coincidencia.",
+    "[2026-08-22] Estilo frase completa (no siempre palabra por palabra en este ejemplo), fuente gruesa blanca, resaltado amarillo, posicion centro-baja, animacion pop.",
+    "[2026-08-22] Saturado, vibrante, estilo TikTok.",
+    "[2026-08-22] Insertos rapidos de: personas en eventos/selfies, bolsa/producto en tienda, libro pasando paginas -- montaje de imagenes variadas mas que un solo hablante fijo.",
+    "[2026-08-22] El mas rapido de los 4 ejemplos de UGC-IA (0.5s mediana, 31.1 cortes/min) y con acelaracion marcada despues del segundo 41 -- el ritmo dentro de UGC-IA tambien varia bastante (13-31 cortes/min)."
+  ],
+  "ultima_actualizacion": "2026-08-22"
+}

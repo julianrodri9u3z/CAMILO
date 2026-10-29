@@ -1,0 +1,20 @@
+{
+  "style": "tiktok",
+  "n_ejemplos_analizados": 0,
+  "shot_duration_s": 1.4,
+  "cuts_per_min": 40.0,
+  "broll_ratio": 0.35,
+  "transition_duration_ms": 180,
+  "transiciones_observadas": {
+    "hard_cut": 3,
+    "whip_pan": 1,
+    "zoom_punch": 1
+  },
+  "generos_musica_observados": {
+    "trend sound": 1,
+    "trap/hyperpop": 1
+  },
+  "notas_libres": [
+    "[seed] Perfil inicial generico, sin ejemplos reales analizados. 2026-09-23: los 12 videos de creadoras (ADS ELIDA + reels sueltos) que se probaron aqui NO encajaron con este perfil (son plano secuencia / pocos cortes, no 40 cortes/min) y se movieron al estilo nuevo ugc-creador; los reels de JUAN CARRIZO (48-55 cortes/min) son lo mas parecido a este perfil semilla y quedaron en editorial-lifestyle."
+  ]
+}

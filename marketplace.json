@@ -1,0 +1,14 @@
+{
+  "name": "ads-video-workshop",
+  "owner": {
+    "name": "Eduardo Pulido"
+  },
+  "plugins": [
+    {
+      "name": "ads-video-toolkit",
+      "source": "./plugins/ads-video-toolkit",
+      "description": "Black Ads AI — pipeline completo de anuncios con IA: minar TikTok/Reels/Meta Ads Library, clonar el copy y estilo de una referencia, generar avatares hablando (Veo 3.1 + clonación de voz ElevenLabs), y editar/subtitular/agregar CTA con Remotion.",
+      "version": "1.2.3"
+    }
+  ]
+}

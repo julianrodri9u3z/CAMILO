@@ -1,0 +1,22 @@
+{
+  "style": "editorial-lifestyle",
+  "n_ejemplos_analizados": 2,
+  "transiciones_observadas": {
+    "hard_cut": 8,
+    "zoom_punch": 2,
+    "slide": 1
+  },
+  "generos_musica_observados": {
+    "trap trend TikTok": 1,
+    "pop synth / hip-hop": 1
+  },
+  "notas_libres": [
+    "[2026-09-23] TIPOGRAFIA CINETICA: minusculas sans (Helvetica-like), palabras apiladas una por linea con pesos/tamanos mezclados ('tu / **negocio** / no crece'), la palabra clave enorme y en negrita, blanco sin contorno, izquierda/medio; a veces texto sobre NEGRO puro entre tomas; un desenfoque de movimiento en un nombre ('Este es FEDE').",
+    "[2026-09-23] [carrizo1] Reel de lifestyle/negocio argentino (voseo 'vos'), 55 cortes/min con b-roll de vida de lujo (casa, piscina, campo de tiro, laptop en el lago). Overlays: stat '+ $140,000', CTA en tarjeta negra 'comentame la palabra \"LIDER\"' (palabra-clave para ManyChat). Sin caja, sin contorno: la jerarquia tipografica hace todo.",
+    "[2026-09-23] Frase completa en minusculas blancas sin contorno, palabras sueltas resaltadas en negrita; titulares condensados en negrita ('SEMANA 3 / $100,000'); numero gigante '1' sobre negro como separador de secciones.",
+    "[2026-09-23] [carrizo2] Mismo lenguaje que carrizo1 (48 cortes/min, b-roll de casas y viajes) con recursos de estructura: numeros gigantes sobre negro como capitulos, un MOSAICO/pixelado sobre una zona con texto 'NO COMPARTAS ESTE VIDEO' y logo de marca 'Aumento Tu Valor' -- censura estilizada como gancho de exclusividad. Whip pan y slide puntuales."
+  ],
+  "shot_duration_s": 0.99,
+  "cuts_per_min": 51.45,
+  "ultima_actualizacion": "2026-09-23"
+}

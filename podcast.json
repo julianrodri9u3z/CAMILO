@@ -1,0 +1,24 @@
+{
+  "style": "podcast",
+  "n_ejemplos_analizados": 1,
+  "shot_duration_s": 4.4,
+  "cuts_per_min": 11.4,
+  "broll_ratio": 0.35,
+  "transition_duration_ms": 350,
+  "transiciones_observadas": {
+    "crossfade": 1,
+    "hard_cut": 3
+  },
+  "generos_musica_observados": {
+    "sin musica / muy sutil": 1,
+    "ambiental suave": 1
+  },
+  "notas_libres": [
+    "[seed] Perfil inicial generico, sin ejemplos reales analizados todavia -- usar update-profile en cuanto se analicen los videos de la carpeta PODCAST.",
+    "[2026-08-22] Palabra por palabra karaoke (NO frase completa como asumia el perfil semilla), fuente gruesa blanca con resaltado amarillo en la palabra clave, posicion centro-baja, animacion pop. Incluye 1-2 frames de 'flash' de color solido (rojo/naranja) como efecto de transicion puntual entre el plano principal y un inserto de b-roll.",
+    "[2026-08-22] Natural, luz de exterior (jardin), contraste medio -- no hay una gradacion de estudio elaborada.",
+    "[2026-08-22] Insertos de lifestyle (auto de lujo conduciendo de noche, tablero con luces de colores) ilustrando literalmente lo que dice la entrevistada -- no es un segundo angulo de camara del mismo set, es b-roll externo.",
+    "[2026-08-22] IMPORTANTE: este 'podcast' no es una entrevista de estudio con dos conductores como asumia el perfil semilla -- es una entrevista de una sola persona grabada en exterior (jardin), con muchos rasgos de edicion de reels/UGC (captions karaoke, b-roll de apoyo, flash de color) mas que de un podcast tradicional. El plano principal SI es mas largo que en los otros estilos (mediana 4.4s vs 1-3s en chisme/ugc/voz), eso es lo que mas lo distingue."
+  ],
+  "ultima_actualizacion": "2026-08-22"
+}

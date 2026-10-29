@@ -5,6 +5,13 @@ description: Edita cualquier video crudo (footage propio, clips generados con vi
 
 # Editar Anuncios — motor Remotion + estilos aprendidos
 
+> **OBLIGATORIO antes de cualquier edición: lee y aplica al pie de la letra
+> [`references/reglas-de-edicion-antonio.md`](references/reglas-de-edicion-antonio.md)**: volumen 70/30 de
+> efectos (−20 a −30 dB bajo la voz), no repetir efectos, cachín en el dinero, música según la emoción,
+> solo palabras de peso resaltadas, zona segura, nada sobre los ojos, cifras en verde, b-roll literal y acorde
+> al estatus del experto. Si un perfil de estilo o un default choca con esas reglas, **ganan las reglas**.
+> Pasa su checklist antes de entregar.
+
 Convierte un video crudo en un anuncio editado, en uno de los estilos/formatos
 aprendidos (`cinematografico`, `ugc-ia`, `tiktok`, `chisme`, `podcast`,
 `voz-en-off-ugc` — ver `references/estilos/` para la lista viva, se pueden
@@ -528,7 +535,7 @@ segundos × `fps` (30 por defecto) -- sin contar el CTA.
 
 ### 9. Renderizar
 
-Antes de renderizar: `match_broll_grade.py` (si hay b-roll), define `grade` sutil en el plan (p. ej. `{"contrast":1.05,"saturation":1.04,"temperature":0.12,"fade":0.03,"grain":0.14}`) y corre `add_sfx.py --intensity low|medium|high` (low para emotivo/documental, medium por defecto, high para UGC/VSL enérgico). Detalle en `references/gramatica-de-edicion.md`.
+Antes de renderizar: `match_broll_grade.py` (si hay b-roll), define `grade` sutil en el plan (p. ej. `{"contrast":1.05,"saturation":1.04,"temperature":0.12,"fade":0.03,"grain":0.14}`) y corre `add_sfx.py --intensity low|medium|high` (low para emotivo/documental, medium por defecto, high para UGC/VSL enérgico). `add_sfx.py` ya aplica las reglas de Antonio: nivela cada efecto a `--db-under 25` dB bajo el pico medido de la voz (rango permitido 20-30), cambia repeticiones seguidas por otro sonido y pone cachín (`sfx/cash.wav`) en las palabras de dinero; marca con `emphasis: true` en `captions` solo las palabras de peso, que también reciben efecto. Detalle en `references/gramatica-de-edicion.md`.
 
 ```bash
 cd ~/.claude/skills/editar-anuncios/remotion

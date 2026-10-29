@@ -126,6 +126,17 @@ def ding():
     return fade(norm(y, 0.6), 1, 80)
 
 
+def cash():
+    """'Cachin' de caja registradora: two bright bell strikes + a short drawer rattle. Goes on money words."""
+    x = t(0.9)
+    bell = lambda f0: sum(a * np.sin(2 * np.pi * f0 * m * x) * np.exp(-x / tau)
+                          for m, a, tau in [(1.0, 1.0, 0.18), (2.76, 0.45, 0.09), (5.4, 0.2, 0.05)])
+    b1 = bell(2093)
+    b2 = np.concatenate([np.zeros(int(SR * 0.09)), bell(2637)[: len(x) - int(SR * 0.09)]])
+    drawer = lowpass_sweep(RNG.normal(0, 1, len(x)), 3500, 900, passes=1) * np.exp(-x / 0.03) * 0.35
+    return fade(norm(0.8 * b1 + 0.7 * b2 + drawer, 0.6), 1, 80)
+
+
 LIB = {
     "whoosh_soft": lambda: whoosh(0.6, 300, 3200, 700),
     "whoosh_fast": lambda: whoosh(0.3, 700, 6500, 1500, 0.5),
@@ -135,6 +146,7 @@ LIB = {
     "hit_low": hit_low,
     "riser": riser,
     "ding": ding,
+    "cash": cash,
 }
 
 

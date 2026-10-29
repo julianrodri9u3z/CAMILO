@@ -1,0 +1,26 @@
+# Dependencias
+node_modules/
+
+# Claves (nunca subir)
+.env
+.env.*
+
+# Salidas de render y trabajos por anuncio
+remotion/out/
+remotion/build/
+remotion/public/jobs/
+*.mp4
+*.mov
+
+# Entorno de visión (vision_setup.py) y binarios compilados
+.venv-vision/
+models/
+scripts/mac/.bin/
+
+# Python
+__pycache__/
+*.pyc
+
+# Sistema
+.DS_Store
+Thumbs.db
